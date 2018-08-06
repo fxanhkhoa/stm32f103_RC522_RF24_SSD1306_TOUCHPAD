@@ -8,6 +8,7 @@
 #include "i2c.h"
 #include "ssd1306.h"
 #include "ssd1306_i2c.h"
+#include "ttp229.h"
 #include "fonts.h"
 #include "function.h"
 #include "DataProtocol.h"
@@ -46,6 +47,8 @@ void DelayMs(uint32_t ms);
 uint8_t CardID[5];
 DataBlock dB;
 uint32_t timer = 0;
+TTP229_KEY touchKey;
+char key[2];
 
 
 int main(int argc, char* argv[])
@@ -71,8 +74,6 @@ int main(int argc, char* argv[])
 	
 	//----RFID-----
 	TM_MFRC522_Init();  
-	
-	
 	DelayMs(300);
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
 	SSD1306_GotoXY(10,10);
@@ -80,6 +81,15 @@ int main(int argc, char* argv[])
 	SSD1306_UpdateScreen();
 	DelayMs(2000);
 	
+	//----- TTP229 ------
+	TTP229_Init(KEYS_16_ACTIVE_LOW);
+	SSD1306_Fill(SSD1306_COLOR_BLACK);
+	SSD1306_GotoXY(10,10);
+	SSD1306_Puts("TTP229", &Font_11x18, SSD1306_COLOR_WHITE);
+	SSD1306_UpdateScreen();
+	DelayMs(2000);
+	
+	//--------- RF24---------
 	Simple_Receive_Init();
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
 	SSD1306_GotoXY(10,10);
@@ -96,6 +106,19 @@ int main(int argc, char* argv[])
 		
 		//-----------------------------Print OLED ---------------------------------------------
 		//SSD1306_UpdateScreen();
+		//-----------------------------TTP229--------------------------------------------------
+		touchKey = TTP229_GetKey();
+		if (touchKey != KEY_NONE)
+		{
+			//printf("%d", touchKey);
+			sprintf(key, "%d", touchKey);
+			SSD1306_Fill(SSD1306_COLOR_BLACK);
+			SSD1306_GotoXY(10,10);
+			SSD1306_Puts(key, &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_UpdateScreen();
+			DelayMs(1000);
+		}
+		
 		//-----------------------------RFID Analayzer------------------------------------------
 		if (TM_MFRC522_Check(dB.RFID) == MI_OK) 
 		{

@@ -38,7 +38,7 @@ void ssd1306_I2C_Init() {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
-    i2c.I2C_ClockSpeed = 400000;
+    i2c.I2C_ClockSpeed = 300000;
     i2c.I2C_Mode = I2C_Mode_I2C;
     i2c.I2C_DutyCycle = I2C_DutyCycle_2;
     i2c.I2C_OwnAddress1 = 0x15;
