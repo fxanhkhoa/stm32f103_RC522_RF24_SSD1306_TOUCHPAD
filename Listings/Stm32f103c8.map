@@ -60,13 +60,16 @@ Section Cross References
     main.o(i.main) refers to printf3.o(i.__0printf$3) for __2printf
     main.o(i.main) refers to ttp229.o(i.TTP229_GetKey) for TTP229_GetKey
     main.o(i.main) refers to printf3.o(i.__0sprintf$3) for __2sprintf
+    main.o(i.main) refers to rf24.o(i.nRF24_GetStatus_RXFIFO) for nRF24_GetStatus_RXFIFO
+    main.o(i.main) refers to rf24.o(i.nRF24_ReadPayload) for nRF24_ReadPayload
+    main.o(i.main) refers to rf24.o(i.nRF24_ClearIRQFlags) for nRF24_ClearIRQFlags
     main.o(i.main) refers to rfid.o(i.TM_MFRC522_Check) for TM_MFRC522_Check
     main.o(i.main) refers to memcpya.o(.text) for __aeabi_memcpy
     main.o(i.main) refers to dataprotocol.o(i.BuildBuffer) for BuildBuffer
     main.o(i.main) refers to function.o(i.BuzzerRight) for BuzzerRight
     main.o(i.main) refers to fonts.o(.data) for Font_11x18
     main.o(i.main) refers to main.o(.data) for touchKey
-    main.o(i.main) refers to main.o(.bss) for dB
+    main.o(i.main) refers to main.o(.bss) for nRF24_payload
     system_stm32f10x.o(i.SetSysClock) refers to system_stm32f10x.o(i.SetSysClockTo72) for SetSysClockTo72
     system_stm32f10x.o(i.SystemCoreClockUpdate) refers to system_stm32f10x.o(.data) for SystemCoreClock
     system_stm32f10x.o(i.SystemInit) refers to system_stm32f10x.o(i.SetSysClock) for SetSysClock
@@ -1419,9 +1422,7 @@ Removing Unused input sections from the image.
     Removing rf24.o(i.nRF24_GetRXSource), (14 bytes).
     Removing rf24.o(i.nRF24_GetRetransmitCounters), (10 bytes).
     Removing rf24.o(i.nRF24_GetStatus), (10 bytes).
-    Removing rf24.o(i.nRF24_GetStatus_RXFIFO), (14 bytes).
     Removing rf24.o(i.nRF24_GetStatus_TXFIFO), (14 bytes).
-    Removing rf24.o(i.nRF24_ReadPayload), (60 bytes).
     Removing rf24.o(i.nRF24_ResetPLOS), (20 bytes).
     Removing rf24.o(i.nRF24_SetAutoRetr), (22 bytes).
     Removing rf24.o(i.nRF24_SetTXPower), (28 bytes).
@@ -1506,7 +1507,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (48 bytes).
     Removing depilogue.o(.text), (186 bytes).
 
-552 unused section(s) (total 22759 bytes) removed from the image.
+550 unused section(s) (total 22685 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1516,20 +1517,20 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    ../../../clib/unwind_pr.c                0x00000000   Number         0  unwind_pr0.o ABSOLUTE
     ../../../clib/unwind_pr.c                0x00000000   Number         0  unwind_prcommon.o ABSOLUTE
-    ../../../clib/unwinder.c                 0x00000000   Number         0  unwind_activity.o ABSOLUTE
-    ../../../clib/unwinder.c                 0x00000000   Number         0  unwind_activity.o ABSOLUTE
+    ../../../clib/unwind_pr.c                0x00000000   Number         0  unwind_pr0.o ABSOLUTE
     ../../../clib/unwinder.c                 0x00000000   Number         0  unwinder.o ABSOLUTE
     ../../../clib/unwinder.c                 0x00000000   Number         0  unwinder.o ABSOLUTE
+    ../../../clib/unwinder.c                 0x00000000   Number         0  unwind_activity.o ABSOLUTE
+    ../../../clib/unwinder.c                 0x00000000   Number         0  unwind_activity.o ABSOLUTE
     ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_mem.o ABSOLUTE
-    ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_callterm.o ABSOLUTE
-    ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_globs.o ABSOLUTE
     ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_support.o ABSOLUTE
     ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_terminate.o ABSOLUTE
-    ../../../edgfe/lib_src/arm_noexceptions.c 0x00000000   Number         0  arm_begincatch_noexceptions.o ABSOLUTE
+    ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_globs.o ABSOLUTE
+    ../../../edgfe/lib_src/arm_exceptions.c  0x00000000   Number         0  arm_exceptions_callterm.o ABSOLUTE
     ../../../edgfe/lib_src/arm_noexceptions.c 0x00000000   Number         0  arm_callunex_noexceptions.o ABSOLUTE
     ../../../edgfe/lib_src/arm_noexceptions.c 0x00000000   Number         0  arm_newhandler_noexceptions.o ABSOLUTE
+    ../../../edgfe/lib_src/arm_noexceptions.c 0x00000000   Number         0  arm_begincatch_noexceptions.o ABSOLUTE
     ../../../edgfe/lib_src/bad_alloc.c       0x00000000   Number         0  bad_alloc_dtor.o ABSOLUTE
     ../../../edgfe/lib_src/bad_alloc.c       0x00000000   Number         0  bad_alloc_what.o ABSOLUTE
     ../../../edgfe/lib_src/delete.c          0x00000000   Number         0  delete.o ABSOLUTE
@@ -1541,38 +1542,38 @@ Image Symbol Table
     ../clib/microlib/cpp/cpp_memory.c        0x00000000   Number         0  cpp_memory.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocra.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocra.o ABSOLUTE
     ../clib/microlib/malloc/mvars.c          0x00000000   Number         0  mvars.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
     ../clib/microlib/printf/stubs.s          0x00000000   Number         0  stubs.o ABSOLUTE
     ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdout.o ABSOLUTE
     ../clib/microlib/stdlib/abort.c          0x00000000   Number         0  abort.o ABSOLUTE
@@ -1766,61 +1767,63 @@ Image Symbol Table
     i.initialize                             0x08002154   Section        0  main.o(i.initialize)
     i.led_toggle                             0x0800225c   Section        0  main.o(i.led_toggle)
     i.main                                   0x08002288   Section        0  main.o(i.main)
-    i.malloc                                 0x08002498   Section        0  malloc.o(i.malloc)
-    i.nRF24_Check                            0x08002504   Section        0  rf24.o(i.nRF24_Check)
-    i.nRF24_ClearIRQFlags                    0x08002544   Section        0  rf24.o(i.nRF24_ClearIRQFlags)
-    i.nRF24_DisableAA                        0x0800255c   Section        0  rf24.o(i.nRF24_DisableAA)
-    i.nRF24_FlushRX                          0x08002586   Section        0  rf24.o(i.nRF24_FlushRX)
-    i.nRF24_FlushTX                          0x08002592   Section        0  rf24.o(i.nRF24_FlushTX)
-    i.nRF24_GPIO_Init                        0x080025a0   Section        0  rf24_hal.o(i.nRF24_GPIO_Init)
-    i.nRF24_Init                             0x080025e8   Section        0  rf24.o(i.nRF24_Init)
-    i.nRF24_LL_RW                            0x08002684   Section        0  rf24_hal.o(i.nRF24_LL_RW)
-    i.nRF24_SetAddr                          0x080026bc   Section        0  rf24.o(i.nRF24_SetAddr)
-    i.nRF24_SetAddrWidth                     0x08002734   Section        0  rf24.o(i.nRF24_SetAddrWidth)
-    i.nRF24_SetCRCScheme                     0x08002744   Section        0  rf24.o(i.nRF24_SetCRCScheme)
-    i.nRF24_SetDataRate                      0x08002764   Section        0  rf24.o(i.nRF24_SetDataRate)
-    i.nRF24_SetOperationalMode               0x08002780   Section        0  rf24.o(i.nRF24_SetOperationalMode)
-    i.nRF24_SetPowerMode                     0x080027a0   Section        0  rf24.o(i.nRF24_SetPowerMode)
-    i.nRF24_SetRFChannel                     0x080027c4   Section        0  rf24.o(i.nRF24_SetRFChannel)
-    i.nRF24_SetRXPipe                        0x080027d4   Section        0  rf24.o(i.nRF24_SetRXPipe)
-    i.ssd1306_I2C_Init                       0x08002830   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Init)
-    i.ssd1306_I2C_IsDeviceConnected          0x080028a4   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_IsDeviceConnected)
-    i.ssd1306_I2C_Start                      0x080028c8   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Start)
-    i.ssd1306_I2C_Stop                       0x08002978   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Stop)
-    i.ssd1306_I2C_Write                      0x080029b8   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Write)
-    i.ssd1306_I2C_WriteData                  0x080029ec   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_WriteData)
-    i.ssd1306_I2C_WriteMulti                 0x08002a18   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_WriteMulti)
-    .constdata                               0x08002a5a   Section        3  function.o(.constdata)
-    nRF24_ADDR                               0x08002a5a   Data           3  function.o(.constdata)
-    .constdata                               0x08002a5d   Section       13  rf24.o(.constdata)
-    nRF24_RX_PW_PIPE                         0x08002a5d   Data           6  rf24.o(.constdata)
-    nRF24_ADDR_REGS                          0x08002a63   Data           7  rf24.o(.constdata)
-    .constdata                               0x08002a6a   Section    10260  fonts.o(.constdata)
-    .data                                    0x20000000   Section       35  main.o(.data)
-    .data                                    0x20000024   Section       20  system_stm32f10x.o(.data)
-    .data                                    0x20000038   Section       20  stm32f10x_rcc.o(.data)
-    APBAHBPrescTable                         0x20000038   Data          16  stm32f10x_rcc.o(.data)
-    ADCPrescTable                            0x20000048   Data           4  stm32f10x_rcc.o(.data)
-    .data                                    0x2000004c   Section        4  delay.o(.data)
-    usTicks                                  0x2000004c   Data           4  delay.o(.data)
-    .data                                    0x20000050   Section        1  ttp229.o(.data)
-    .data                                    0x20000054   Section       24  fonts.o(.data)
-    .data                                    0x2000006c   Section        6  ssd1306.o(.data)
-    SSD1306                                  0x2000006c   Data           6  ssd1306.o(.data)
-    .data                                    0x20000074   Section        4  ssd1306_i2c.o(.data)
-    ssd1306_I2C_Timeout                      0x20000074   Data           4  ssd1306_i2c.o(.data)
-    .data                                    0x20000078   Section        4  stdout.o(.data)
-    .data                                    0x2000007c   Section        4  mvars.o(.data)
+    i.malloc                                 0x08002514   Section        0  malloc.o(i.malloc)
+    i.nRF24_Check                            0x08002580   Section        0  rf24.o(i.nRF24_Check)
+    i.nRF24_ClearIRQFlags                    0x080025c0   Section        0  rf24.o(i.nRF24_ClearIRQFlags)
+    i.nRF24_DisableAA                        0x080025d8   Section        0  rf24.o(i.nRF24_DisableAA)
+    i.nRF24_FlushRX                          0x08002602   Section        0  rf24.o(i.nRF24_FlushRX)
+    i.nRF24_FlushTX                          0x0800260e   Section        0  rf24.o(i.nRF24_FlushTX)
+    i.nRF24_GPIO_Init                        0x0800261c   Section        0  rf24_hal.o(i.nRF24_GPIO_Init)
+    i.nRF24_GetStatus_RXFIFO                 0x08002664   Section        0  rf24.o(i.nRF24_GetStatus_RXFIFO)
+    i.nRF24_Init                             0x08002674   Section        0  rf24.o(i.nRF24_Init)
+    i.nRF24_LL_RW                            0x08002710   Section        0  rf24_hal.o(i.nRF24_LL_RW)
+    i.nRF24_ReadPayload                      0x08002748   Section        0  rf24.o(i.nRF24_ReadPayload)
+    i.nRF24_SetAddr                          0x08002784   Section        0  rf24.o(i.nRF24_SetAddr)
+    i.nRF24_SetAddrWidth                     0x080027fc   Section        0  rf24.o(i.nRF24_SetAddrWidth)
+    i.nRF24_SetCRCScheme                     0x0800280c   Section        0  rf24.o(i.nRF24_SetCRCScheme)
+    i.nRF24_SetDataRate                      0x0800282c   Section        0  rf24.o(i.nRF24_SetDataRate)
+    i.nRF24_SetOperationalMode               0x08002848   Section        0  rf24.o(i.nRF24_SetOperationalMode)
+    i.nRF24_SetPowerMode                     0x08002868   Section        0  rf24.o(i.nRF24_SetPowerMode)
+    i.nRF24_SetRFChannel                     0x0800288c   Section        0  rf24.o(i.nRF24_SetRFChannel)
+    i.nRF24_SetRXPipe                        0x0800289c   Section        0  rf24.o(i.nRF24_SetRXPipe)
+    i.ssd1306_I2C_Init                       0x080028f8   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Init)
+    i.ssd1306_I2C_IsDeviceConnected          0x0800296c   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_IsDeviceConnected)
+    i.ssd1306_I2C_Start                      0x08002990   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Start)
+    i.ssd1306_I2C_Stop                       0x08002a40   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Stop)
+    i.ssd1306_I2C_Write                      0x08002a80   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_Write)
+    i.ssd1306_I2C_WriteData                  0x08002ab4   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_WriteData)
+    i.ssd1306_I2C_WriteMulti                 0x08002ae0   Section        0  ssd1306_i2c.o(i.ssd1306_I2C_WriteMulti)
+    .constdata                               0x08002b22   Section        5  function.o(.constdata)
+    nRF24_ADDR                               0x08002b22   Data           5  function.o(.constdata)
+    .constdata                               0x08002b27   Section       13  rf24.o(.constdata)
+    nRF24_RX_PW_PIPE                         0x08002b27   Data           6  rf24.o(.constdata)
+    nRF24_ADDR_REGS                          0x08002b2d   Data           7  rf24.o(.constdata)
+    .constdata                               0x08002b34   Section    10260  fonts.o(.constdata)
+    .data                                    0x20000000   Section       37  main.o(.data)
+    .data                                    0x20000028   Section       20  system_stm32f10x.o(.data)
+    .data                                    0x2000003c   Section       20  stm32f10x_rcc.o(.data)
+    APBAHBPrescTable                         0x2000003c   Data          16  stm32f10x_rcc.o(.data)
+    ADCPrescTable                            0x2000004c   Data           4  stm32f10x_rcc.o(.data)
+    .data                                    0x20000050   Section        4  delay.o(.data)
+    usTicks                                  0x20000050   Data           4  delay.o(.data)
+    .data                                    0x20000054   Section        1  ttp229.o(.data)
+    .data                                    0x20000058   Section       24  fonts.o(.data)
+    .data                                    0x20000070   Section        6  ssd1306.o(.data)
+    SSD1306                                  0x20000070   Data           6  ssd1306.o(.data)
+    .data                                    0x20000078   Section        4  ssd1306_i2c.o(.data)
+    ssd1306_I2C_Timeout                      0x20000078   Data           4  ssd1306_i2c.o(.data)
+    .data                                    0x2000007c   Section        4  stdout.o(.data)
     .data                                    0x20000080   Section        4  mvars.o(.data)
-    .data                                    0x20000084   Section       12  cpp_memory.o(.data)
-    handler_pointer                          0x20000084   Data           4  cpp_memory.o(.data)
-    eh                                       0x20000088   Data           4  cpp_memory.o(.data)
-    eh_p                                     0x2000008c   Data           4  cpp_memory.o(.data)
-    .bss                                     0x20000090   Section       71  main.o(.bss)
-    .bss                                     0x200000d7   Section     1024  ssd1306.o(.bss)
-    SSD1306_Buffer                           0x200000d7   Data        1024  ssd1306.o(.bss)
-    HEAP                                     0x200004d8   Section      512  startup_stm32f10x_md.o(HEAP)
-    STACK                                    0x200006d8   Section     1024  startup_stm32f10x_md.o(STACK)
+    .data                                    0x20000084   Section        4  mvars.o(.data)
+    .data                                    0x20000088   Section       12  cpp_memory.o(.data)
+    handler_pointer                          0x20000088   Data           4  cpp_memory.o(.data)
+    eh                                       0x2000008c   Data           4  cpp_memory.o(.data)
+    eh_p                                     0x20000090   Data           4  cpp_memory.o(.data)
+    .bss                                     0x20000094   Section      103  main.o(.bss)
+    .bss                                     0x200000fb   Section     1024  ssd1306.o(.bss)
+    SSD1306_Buffer                           0x200000fb   Data        1024  ssd1306.o(.bss)
+    HEAP                                     0x20000500   Section      512  startup_stm32f10x_md.o(HEAP)
+    STACK                                    0x20000700   Section     1024  startup_stm32f10x_md.o(STACK)
 
     Global Symbols
 
@@ -2063,36 +2066,38 @@ Image Symbol Table
     fputc                                    0x08002121   Thumb Code    46  main.o(i.fputc)
     initialize                               0x08002155   Thumb Code   246  main.o(i.initialize)
     led_toggle                               0x0800225d   Thumb Code    40  main.o(i.led_toggle)
-    main                                     0x08002289   Thumb Code   426  main.o(i.main)
-    malloc                                   0x08002499   Thumb Code    92  malloc.o(i.malloc)
-    nRF24_Check                              0x08002505   Thumb Code    56  rf24.o(i.nRF24_Check)
-    nRF24_ClearIRQFlags                      0x08002545   Thumb Code    24  rf24.o(i.nRF24_ClearIRQFlags)
-    nRF24_DisableAA                          0x0800255d   Thumb Code    42  rf24.o(i.nRF24_DisableAA)
-    nRF24_FlushRX                            0x08002587   Thumb Code    12  rf24.o(i.nRF24_FlushRX)
-    nRF24_FlushTX                            0x08002593   Thumb Code    12  rf24.o(i.nRF24_FlushTX)
-    nRF24_GPIO_Init                          0x080025a1   Thumb Code    68  rf24_hal.o(i.nRF24_GPIO_Init)
-    nRF24_Init                               0x080025e9   Thumb Code   152  rf24.o(i.nRF24_Init)
-    nRF24_LL_RW                              0x08002685   Thumb Code    50  rf24_hal.o(i.nRF24_LL_RW)
-    nRF24_SetAddr                            0x080026bd   Thumb Code   112  rf24.o(i.nRF24_SetAddr)
-    nRF24_SetAddrWidth                       0x08002735   Thumb Code    16  rf24.o(i.nRF24_SetAddrWidth)
-    nRF24_SetCRCScheme                       0x08002745   Thumb Code    32  rf24.o(i.nRF24_SetCRCScheme)
-    nRF24_SetDataRate                        0x08002765   Thumb Code    28  rf24.o(i.nRF24_SetDataRate)
-    nRF24_SetOperationalMode                 0x08002781   Thumb Code    32  rf24.o(i.nRF24_SetOperationalMode)
-    nRF24_SetPowerMode                       0x080027a1   Thumb Code    36  rf24.o(i.nRF24_SetPowerMode)
-    nRF24_SetRFChannel                       0x080027c5   Thumb Code    14  rf24.o(i.nRF24_SetRFChannel)
-    nRF24_SetRXPipe                          0x080027d5   Thumb Code    86  rf24.o(i.nRF24_SetRXPipe)
-    ssd1306_I2C_Init                         0x08002831   Thumb Code   104  ssd1306_i2c.o(i.ssd1306_I2C_Init)
-    ssd1306_I2C_IsDeviceConnected            0x080028a5   Thumb Code    34  ssd1306_i2c.o(i.ssd1306_I2C_IsDeviceConnected)
-    ssd1306_I2C_Start                        0x080028c9   Thumb Code   166  ssd1306_i2c.o(i.ssd1306_I2C_Start)
-    ssd1306_I2C_Stop                         0x08002979   Thumb Code    60  ssd1306_i2c.o(i.ssd1306_I2C_Stop)
-    ssd1306_I2C_Write                        0x080029b9   Thumb Code    50  ssd1306_i2c.o(i.ssd1306_I2C_Write)
-    ssd1306_I2C_WriteData                    0x080029ed   Thumb Code    40  ssd1306_i2c.o(i.ssd1306_I2C_WriteData)
-    ssd1306_I2C_WriteMulti                   0x08002a19   Thumb Code    66  ssd1306_i2c.o(i.ssd1306_I2C_WriteMulti)
-    Font7x10                                 0x08002a6a   Data        1900  fonts.o(.constdata)
-    Font11x18                                0x080031d6   Data        3420  fonts.o(.constdata)
-    Font16x26                                0x08003f32   Data        4940  fonts.o(.constdata)
-    Region$$Table$$Base                      0x08005280   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080052a0   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08002289   Thumb Code   544  main.o(i.main)
+    malloc                                   0x08002515   Thumb Code    92  malloc.o(i.malloc)
+    nRF24_Check                              0x08002581   Thumb Code    56  rf24.o(i.nRF24_Check)
+    nRF24_ClearIRQFlags                      0x080025c1   Thumb Code    24  rf24.o(i.nRF24_ClearIRQFlags)
+    nRF24_DisableAA                          0x080025d9   Thumb Code    42  rf24.o(i.nRF24_DisableAA)
+    nRF24_FlushRX                            0x08002603   Thumb Code    12  rf24.o(i.nRF24_FlushRX)
+    nRF24_FlushTX                            0x0800260f   Thumb Code    12  rf24.o(i.nRF24_FlushTX)
+    nRF24_GPIO_Init                          0x0800261d   Thumb Code    68  rf24_hal.o(i.nRF24_GPIO_Init)
+    nRF24_GetStatus_RXFIFO                   0x08002665   Thumb Code    14  rf24.o(i.nRF24_GetStatus_RXFIFO)
+    nRF24_Init                               0x08002675   Thumb Code   152  rf24.o(i.nRF24_Init)
+    nRF24_LL_RW                              0x08002711   Thumb Code    50  rf24_hal.o(i.nRF24_LL_RW)
+    nRF24_ReadPayload                        0x08002749   Thumb Code    56  rf24.o(i.nRF24_ReadPayload)
+    nRF24_SetAddr                            0x08002785   Thumb Code   112  rf24.o(i.nRF24_SetAddr)
+    nRF24_SetAddrWidth                       0x080027fd   Thumb Code    16  rf24.o(i.nRF24_SetAddrWidth)
+    nRF24_SetCRCScheme                       0x0800280d   Thumb Code    32  rf24.o(i.nRF24_SetCRCScheme)
+    nRF24_SetDataRate                        0x0800282d   Thumb Code    28  rf24.o(i.nRF24_SetDataRate)
+    nRF24_SetOperationalMode                 0x08002849   Thumb Code    32  rf24.o(i.nRF24_SetOperationalMode)
+    nRF24_SetPowerMode                       0x08002869   Thumb Code    36  rf24.o(i.nRF24_SetPowerMode)
+    nRF24_SetRFChannel                       0x0800288d   Thumb Code    14  rf24.o(i.nRF24_SetRFChannel)
+    nRF24_SetRXPipe                          0x0800289d   Thumb Code    86  rf24.o(i.nRF24_SetRXPipe)
+    ssd1306_I2C_Init                         0x080028f9   Thumb Code   104  ssd1306_i2c.o(i.ssd1306_I2C_Init)
+    ssd1306_I2C_IsDeviceConnected            0x0800296d   Thumb Code    34  ssd1306_i2c.o(i.ssd1306_I2C_IsDeviceConnected)
+    ssd1306_I2C_Start                        0x08002991   Thumb Code   166  ssd1306_i2c.o(i.ssd1306_I2C_Start)
+    ssd1306_I2C_Stop                         0x08002a41   Thumb Code    60  ssd1306_i2c.o(i.ssd1306_I2C_Stop)
+    ssd1306_I2C_Write                        0x08002a81   Thumb Code    50  ssd1306_i2c.o(i.ssd1306_I2C_Write)
+    ssd1306_I2C_WriteData                    0x08002ab5   Thumb Code    40  ssd1306_i2c.o(i.ssd1306_I2C_WriteData)
+    ssd1306_I2C_WriteMulti                   0x08002ae1   Thumb Code    66  ssd1306_i2c.o(i.ssd1306_I2C_WriteMulti)
+    Font7x10                                 0x08002b34   Data        1900  fonts.o(.constdata)
+    Font11x18                                0x080032a0   Data        3420  fonts.o(.constdata)
+    Font16x26                                0x08003ffc   Data        4940  fonts.o(.constdata)
+    Region$$Table$$Base                      0x08005348   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08005368   Number         0  anon$$obj.o(Region$$Table)
     GPIO_InitStructure                       0x20000000   Data           4  main.o(.data)
     EXTI_InitStructure                       0x20000004   Data           8  main.o(.data)
     NVIC_InitStructure                       0x2000000c   Data           4  main.o(.data)
@@ -2101,22 +2106,25 @@ Image Symbol Table
     timer                                    0x2000001c   Data           4  main.o(.data)
     touchKey                                 0x20000020   Data           1  main.o(.data)
     key                                      0x20000021   Data           2  main.o(.data)
-    SystemCoreClock                          0x20000024   Data           4  system_stm32f10x.o(.data)
-    AHBPrescTable                            0x20000028   Data          16  system_stm32f10x.o(.data)
-    currentMode                              0x20000050   Data           1  ttp229.o(.data)
-    Font_7x10                                0x20000054   Data           8  fonts.o(.data)
-    Font_11x18                               0x2000005c   Data           8  fonts.o(.data)
-    Font_16x26                               0x20000064   Data           8  fonts.o(.data)
-    __stdout                                 0x20000078   Data           4  stdout.o(.data)
-    __microlib_freelist                      0x2000007c   Data           4  mvars.o(.data)
-    __microlib_freelist_initialised          0x20000080   Data           4  mvars.o(.data)
-    TIM_TimeBaseStructure                    0x20000090   Data          10  main.o(.bss)
-    USART_InitStructure                      0x2000009c   Data          16  main.o(.bss)
-    bufferRFID                               0x200000ac   Data          30  main.o(.bss)
-    dB                                       0x200000ca   Data          13  main.o(.bss)
-    __heap_base                              0x200004d8   Data           0  startup_stm32f10x_md.o(HEAP)
-    __heap_limit                             0x200006d8   Data           0  startup_stm32f10x_md.o(HEAP)
-    __initial_sp                             0x20000ad8   Data           0  startup_stm32f10x_md.o(STACK)
+    pipe                                     0x20000023   Data           1  main.o(.data)
+    payload_length                           0x20000024   Data           1  main.o(.data)
+    SystemCoreClock                          0x20000028   Data           4  system_stm32f10x.o(.data)
+    AHBPrescTable                            0x2000002c   Data          16  system_stm32f10x.o(.data)
+    currentMode                              0x20000054   Data           1  ttp229.o(.data)
+    Font_7x10                                0x20000058   Data           8  fonts.o(.data)
+    Font_11x18                               0x20000060   Data           8  fonts.o(.data)
+    Font_16x26                               0x20000068   Data           8  fonts.o(.data)
+    __stdout                                 0x2000007c   Data           4  stdout.o(.data)
+    __microlib_freelist                      0x20000080   Data           4  mvars.o(.data)
+    __microlib_freelist_initialised          0x20000084   Data           4  mvars.o(.data)
+    TIM_TimeBaseStructure                    0x20000094   Data          10  main.o(.bss)
+    USART_InitStructure                      0x200000a0   Data          16  main.o(.bss)
+    bufferRFID                               0x200000b0   Data          30  main.o(.bss)
+    dB                                       0x200000ce   Data          13  main.o(.bss)
+    nRF24_payload                            0x200000db   Data          32  main.o(.bss)
+    __heap_base                              0x20000500   Data           0  startup_stm32f10x_md.o(HEAP)
+    __heap_limit                             0x20000700   Data           0  startup_stm32f10x_md.o(HEAP)
+    __initial_sp                             0x20000b00   Data           0  startup_stm32f10x_md.o(STACK)
 
 
 
@@ -2126,9 +2134,9 @@ Memory Map of the image
 
   Image Entry point : 0x080000ed
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00005330, Max: 0x00010000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000053fc, Max: 0x00010000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000052a0, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00005368, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2267,66 +2275,68 @@ Memory Map of the image
     0x08002120   0x08002120   0x00000034   Code   RO            9    i.fputc             main.o
     0x08002154   0x08002154   0x00000108   Code   RO           10    i.initialize        main.o
     0x0800225c   0x0800225c   0x0000002c   Code   RO           11    i.led_toggle        main.o
-    0x08002288   0x08002288   0x00000210   Code   RO           12    i.main              main.o
-    0x08002498   0x08002498   0x0000006c   Code   RO         4698    i.malloc            mc_w.l(malloc.o)
-    0x08002504   0x08002504   0x00000040   Code   RO         3768    i.nRF24_Check       rf24.o
-    0x08002544   0x08002544   0x00000018   Code   RO         3769    i.nRF24_ClearIRQFlags  rf24.o
-    0x0800255c   0x0800255c   0x0000002a   Code   RO         3771    i.nRF24_DisableAA   rf24.o
-    0x08002586   0x08002586   0x0000000c   Code   RO         3773    i.nRF24_FlushRX     rf24.o
-    0x08002592   0x08002592   0x0000000c   Code   RO         3774    i.nRF24_FlushTX     rf24.o
-    0x0800259e   0x0800259e   0x00000002   PAD
-    0x080025a0   0x080025a0   0x00000048   Code   RO         3988    i.nRF24_GPIO_Init   rf24_hal.o
-    0x080025e8   0x080025e8   0x0000009c   Code   RO         3781    i.nRF24_Init        rf24.o
-    0x08002684   0x08002684   0x00000038   Code   RO         3989    i.nRF24_LL_RW       rf24_hal.o
-    0x080026bc   0x080026bc   0x00000078   Code   RO         3784    i.nRF24_SetAddr     rf24.o
-    0x08002734   0x08002734   0x00000010   Code   RO         3785    i.nRF24_SetAddrWidth  rf24.o
-    0x08002744   0x08002744   0x00000020   Code   RO         3787    i.nRF24_SetCRCScheme  rf24.o
-    0x08002764   0x08002764   0x0000001c   Code   RO         3788    i.nRF24_SetDataRate  rf24.o
-    0x08002780   0x08002780   0x00000020   Code   RO         3789    i.nRF24_SetOperationalMode  rf24.o
-    0x080027a0   0x080027a0   0x00000024   Code   RO         3790    i.nRF24_SetPowerMode  rf24.o
-    0x080027c4   0x080027c4   0x0000000e   Code   RO         3791    i.nRF24_SetRFChannel  rf24.o
-    0x080027d2   0x080027d2   0x00000002   PAD
-    0x080027d4   0x080027d4   0x0000005c   Code   RO         3792    i.nRF24_SetRXPipe   rf24.o
-    0x08002830   0x08002830   0x00000074   Code   RO         4371    i.ssd1306_I2C_Init  ssd1306_i2c.o
-    0x080028a4   0x080028a4   0x00000022   Code   RO         4372    i.ssd1306_I2C_IsDeviceConnected  ssd1306_i2c.o
-    0x080028c6   0x080028c6   0x00000002   PAD
-    0x080028c8   0x080028c8   0x000000b0   Code   RO         4373    i.ssd1306_I2C_Start  ssd1306_i2c.o
-    0x08002978   0x08002978   0x00000040   Code   RO         4374    i.ssd1306_I2C_Stop  ssd1306_i2c.o
-    0x080029b8   0x080029b8   0x00000032   Code   RO         4375    i.ssd1306_I2C_Write  ssd1306_i2c.o
-    0x080029ea   0x080029ea   0x00000002   PAD
-    0x080029ec   0x080029ec   0x0000002c   Code   RO         4376    i.ssd1306_I2C_WriteData  ssd1306_i2c.o
-    0x08002a18   0x08002a18   0x00000042   Code   RO         4377    i.ssd1306_I2C_WriteMulti  ssd1306_i2c.o
-    0x08002a5a   0x08002a5a   0x00000003   Data   RO         3592    .constdata          function.o
-    0x08002a5d   0x08002a5d   0x0000000d   Data   RO         3826    .constdata          rf24.o
-    0x08002a6a   0x08002a6a   0x00002814   Data   RO         4226    .constdata          fonts.o
-    0x0800527e   0x0800527e   0x00000002   PAD
-    0x08005280   0x08005280   0x00000020   Data   RO         4957    Region$$Table       anon$$obj.o
+    0x08002288   0x08002288   0x0000028c   Code   RO           12    i.main              main.o
+    0x08002514   0x08002514   0x0000006c   Code   RO         4698    i.malloc            mc_w.l(malloc.o)
+    0x08002580   0x08002580   0x00000040   Code   RO         3768    i.nRF24_Check       rf24.o
+    0x080025c0   0x080025c0   0x00000018   Code   RO         3769    i.nRF24_ClearIRQFlags  rf24.o
+    0x080025d8   0x080025d8   0x0000002a   Code   RO         3771    i.nRF24_DisableAA   rf24.o
+    0x08002602   0x08002602   0x0000000c   Code   RO         3773    i.nRF24_FlushRX     rf24.o
+    0x0800260e   0x0800260e   0x0000000c   Code   RO         3774    i.nRF24_FlushTX     rf24.o
+    0x0800261a   0x0800261a   0x00000002   PAD
+    0x0800261c   0x0800261c   0x00000048   Code   RO         3988    i.nRF24_GPIO_Init   rf24_hal.o
+    0x08002664   0x08002664   0x0000000e   Code   RO         3779    i.nRF24_GetStatus_RXFIFO  rf24.o
+    0x08002672   0x08002672   0x00000002   PAD
+    0x08002674   0x08002674   0x0000009c   Code   RO         3781    i.nRF24_Init        rf24.o
+    0x08002710   0x08002710   0x00000038   Code   RO         3989    i.nRF24_LL_RW       rf24_hal.o
+    0x08002748   0x08002748   0x0000003c   Code   RO         3782    i.nRF24_ReadPayload  rf24.o
+    0x08002784   0x08002784   0x00000078   Code   RO         3784    i.nRF24_SetAddr     rf24.o
+    0x080027fc   0x080027fc   0x00000010   Code   RO         3785    i.nRF24_SetAddrWidth  rf24.o
+    0x0800280c   0x0800280c   0x00000020   Code   RO         3787    i.nRF24_SetCRCScheme  rf24.o
+    0x0800282c   0x0800282c   0x0000001c   Code   RO         3788    i.nRF24_SetDataRate  rf24.o
+    0x08002848   0x08002848   0x00000020   Code   RO         3789    i.nRF24_SetOperationalMode  rf24.o
+    0x08002868   0x08002868   0x00000024   Code   RO         3790    i.nRF24_SetPowerMode  rf24.o
+    0x0800288c   0x0800288c   0x0000000e   Code   RO         3791    i.nRF24_SetRFChannel  rf24.o
+    0x0800289a   0x0800289a   0x00000002   PAD
+    0x0800289c   0x0800289c   0x0000005c   Code   RO         3792    i.nRF24_SetRXPipe   rf24.o
+    0x080028f8   0x080028f8   0x00000074   Code   RO         4371    i.ssd1306_I2C_Init  ssd1306_i2c.o
+    0x0800296c   0x0800296c   0x00000022   Code   RO         4372    i.ssd1306_I2C_IsDeviceConnected  ssd1306_i2c.o
+    0x0800298e   0x0800298e   0x00000002   PAD
+    0x08002990   0x08002990   0x000000b0   Code   RO         4373    i.ssd1306_I2C_Start  ssd1306_i2c.o
+    0x08002a40   0x08002a40   0x00000040   Code   RO         4374    i.ssd1306_I2C_Stop  ssd1306_i2c.o
+    0x08002a80   0x08002a80   0x00000032   Code   RO         4375    i.ssd1306_I2C_Write  ssd1306_i2c.o
+    0x08002ab2   0x08002ab2   0x00000002   PAD
+    0x08002ab4   0x08002ab4   0x0000002c   Code   RO         4376    i.ssd1306_I2C_WriteData  ssd1306_i2c.o
+    0x08002ae0   0x08002ae0   0x00000042   Code   RO         4377    i.ssd1306_I2C_WriteMulti  ssd1306_i2c.o
+    0x08002b22   0x08002b22   0x00000005   Data   RO         3592    .constdata          function.o
+    0x08002b27   0x08002b27   0x0000000d   Data   RO         3826    .constdata          rf24.o
+    0x08002b34   0x08002b34   0x00002814   Data   RO         4226    .constdata          fonts.o
+    0x08005348   0x08005348   0x00000020   Data   RO         4957    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080052a0, Size: 0x00000ad8, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08005368, Size: 0x00000b00, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x080052a0   0x00000023   Data   RW           15    .data               main.o
-    0x20000023   0x080052c3   0x00000001   PAD
-    0x20000024   0x080052c4   0x00000014   Data   RW          234    .data               system_stm32f10x.o
-    0x20000038   0x080052d8   0x00000014   Data   RW         1982    .data               stm32f10x_rcc.o
-    0x2000004c   0x080052ec   0x00000004   Data   RW         3516    .data               delay.o
-    0x20000050   0x080052f0   0x00000001   Data   RW         4188    .data               ttp229.o
-    0x20000051   0x080052f1   0x00000003   PAD
-    0x20000054   0x080052f4   0x00000018   Data   RW         4227    .data               fonts.o
-    0x2000006c   0x0800530c   0x00000006   Data   RW         4265    .data               ssd1306.o
-    0x20000072   0x08005312   0x00000002   PAD
-    0x20000074   0x08005314   0x00000004   Data   RW         4378    .data               ssd1306_i2c.o
-    0x20000078   0x08005318   0x00000004   Data   RW         4758    .data               mc_w.l(stdout.o)
-    0x2000007c   0x0800531c   0x00000004   Data   RW         4763    .data               mc_w.l(mvars.o)
-    0x20000080   0x08005320   0x00000004   Data   RW         4764    .data               mc_w.l(mvars.o)
-    0x20000084   0x08005324   0x0000000c   Data   RW         4767    .data               mc_w.l(cpp_memory.o)
-    0x20000090        -       0x00000047   Zero   RW           13    .bss                main.o
-    0x200000d7        -       0x00000400   Zero   RW         4264    .bss                ssd1306.o
-    0x200004d7   0x08005330   0x00000001   PAD
-    0x200004d8        -       0x00000200   Zero   RW         3368    HEAP                startup_stm32f10x_md.o
-    0x200006d8        -       0x00000400   Zero   RW         3367    STACK               startup_stm32f10x_md.o
+    0x20000000   0x08005368   0x00000025   Data   RW           15    .data               main.o
+    0x20000025   0x0800538d   0x00000003   PAD
+    0x20000028   0x08005390   0x00000014   Data   RW          234    .data               system_stm32f10x.o
+    0x2000003c   0x080053a4   0x00000014   Data   RW         1982    .data               stm32f10x_rcc.o
+    0x20000050   0x080053b8   0x00000004   Data   RW         3516    .data               delay.o
+    0x20000054   0x080053bc   0x00000001   Data   RW         4188    .data               ttp229.o
+    0x20000055   0x080053bd   0x00000003   PAD
+    0x20000058   0x080053c0   0x00000018   Data   RW         4227    .data               fonts.o
+    0x20000070   0x080053d8   0x00000006   Data   RW         4265    .data               ssd1306.o
+    0x20000076   0x080053de   0x00000002   PAD
+    0x20000078   0x080053e0   0x00000004   Data   RW         4378    .data               ssd1306_i2c.o
+    0x2000007c   0x080053e4   0x00000004   Data   RW         4758    .data               mc_w.l(stdout.o)
+    0x20000080   0x080053e8   0x00000004   Data   RW         4763    .data               mc_w.l(mvars.o)
+    0x20000084   0x080053ec   0x00000004   Data   RW         4764    .data               mc_w.l(mvars.o)
+    0x20000088   0x080053f0   0x0000000c   Data   RW         4767    .data               mc_w.l(cpp_memory.o)
+    0x20000094        -       0x00000067   Zero   RW           13    .bss                main.o
+    0x200000fb        -       0x00000400   Zero   RW         4264    .bss                ssd1306.o
+    0x200004fb   0x080053fc   0x00000005   PAD
+    0x20000500        -       0x00000200   Zero   RW         3368    HEAP                startup_stm32f10x_md.o
+    0x20000700        -       0x00000400   Zero   RW         3367    STACK               startup_stm32f10x_md.o
 
 
 ==============================================================================
@@ -2340,10 +2350,10 @@ Image component sizes
         94          0          0          0          0       1562   dataprotocol.o
        172         28          0          4          0      17665   delay.o
          0          0      10260         24          0       1315   fonts.o
-       616         24          3          0          0     247248   function.o
-      1166        162          0         35         71     270953   main.o
+       616         24          5          0          0     247248   function.o
+      1290        168          0         37        103     271223   main.o
        132         22          0          0          0      19259   misc.o
-       920         52         13          0          0      13928   rf24.o
+       994         56         13          0          0      15101   rf24.o
        128         10          0          0          0       1060   rf24_hal.o
       1120         30          0          0          0       9544   rfid.o
        906         42          0          6       1024       6754   ssd1306.o
@@ -2360,9 +2370,9 @@ Image component sizes
        604         34          0          1          0       4278   ttp229.o
 
     ----------------------------------------------------------------------
-      9538        694      10546        120       2632     696567   Object Totals
+      9738        704      10546        124       2668     698010   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        24          0          2          6          1          0   (incl. Padding)
+        26          0          0          8          5          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2413,15 +2423,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     10606        768      10546        144       2632     691323   Grand Totals
-     10606        768      10546        144       2632     691323   ELF Image Totals
-     10606        768      10546        144          0          0   ROM Totals
+     10806        778      10546        148       2668     692662   Grand Totals
+     10806        778      10546        148       2668     692662   ELF Image Totals
+     10806        778      10546        148          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                21152 (  20.66kB)
-    Total RW  Size (RW Data + ZI Data)              2776 (   2.71kB)
-    Total ROM Size (Code + RO Data + RW Data)      21296 (  20.80kB)
+    Total RO  Size (Code + RO Data)                21352 (  20.85kB)
+    Total RW  Size (RW Data + ZI Data)              2816 (   2.75kB)
+    Total ROM Size (Code + RO Data + RW Data)      21500 (  21.00kB)
 
 ==============================================================================
 

@@ -4,7 +4,7 @@
 #include <U8g2lib.h>
 
 #define REPORTING_PERIOD_MS     500
-U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0);
+//U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0);
  
 const uint64_t pipe = 0xE8E8F0F0E1LL; // địa chỉ phát
 RF24 radio(9,10);//thay 10 thành 53 với mega
@@ -14,31 +14,32 @@ int led_st = 0;
  
 void setup(){
   Serial.begin(9600);
-//  radio.begin();                     
-//  radio.setAutoAck(1);              
-//  radio.setDataRate(RF24_1MBPS);    // Tốc độ dữ liệu
-//  radio.setChannel(10);               // Đặt kênh
-//  radio.openReadingPipe(1,pipe);     
-//  radio.startListening();            
+  radio.begin();                     
+  radio.setAutoAck(1);              
+  radio.setDataRate(RF24_1MBPS);    // Tốc độ dữ liệu
+  radio.setChannel(10);               // Đặt kênh
+  radio.openReadingPipe(1,pipe);     
+  radio.startListening();            
   pinMode(led, OUTPUT);
+  Serial.println("Begin");
   // Init Oled
-  u8g2.begin();
-  u8g2.clearBuffer();
-  u8g2.setFont(u8g2_font_6x12_te);
-  
-  u8g2.setCursor(0,8);
-  u8g2.print("temperature:");
-  
-
-  u8g2.setCursor(70,8);
-  u8g2.print("a");
-
-  u8g2.setCursor(0,18);
-  u8g2.print("humidity:");
-
-  u8g2.setCursor(0,28);
-  u8g2.print("another:");
-  u8g2.sendBuffer();
+//  u8g2.begin();
+//  u8g2.clearBuffer();
+//  u8g2.setFont(u8g2_font_6x12_te);
+//  
+//  u8g2.setCursor(0,8);
+//  u8g2.print("temperature:");
+//  
+//
+//  u8g2.setCursor(70,8);
+//  u8g2.print("a");
+//
+//  u8g2.setCursor(0,18);
+//  u8g2.print("humidity:");
+//
+//  u8g2.setCursor(0,28);
+//  u8g2.print("another:");
+//  u8g2.sendBuffer();
 }
 
 void displayall(byte msg[])
@@ -67,9 +68,8 @@ void loop(){
     while (radio.available()){
       radio.read(&msg, sizeof(msg));
       Serial.println(msg[0]);
+      Serial.println(msg[1]);
       analogWrite(led, msg[0]);
-      displayall(msg);
-      delay(2000);
     }
   }
   

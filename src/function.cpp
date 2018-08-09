@@ -186,21 +186,21 @@ void Simple_Receive_Init(void)
     nRF24_DisableAA(0xFF);
 
     // Set RF channel
-    nRF24_SetRFChannel(115);
+    nRF24_SetRFChannel(10);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_250kbps);
+    nRF24_SetDataRate(nRF24_DR_1Mbps);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
 
     // Set address width, its common for all pipes (RX and TX)
-    nRF24_SetAddrWidth(3);
+    nRF24_SetAddrWidth(5);
 
     // Configure RX PIPE#1
-    static const uint8_t nRF24_ADDR[] = { 0xE7, 0x1C, 0xE3 };
+    static const uint8_t nRF24_ADDR[] = { 0xE8, 0xE8, 0xF0 , 0xF0, 0xE1};
     nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for RX pipe #1
-    nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 3); // Auto-ACK: disabled, payload length: 5 bytes
+    nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_ON, 32); // Auto-ACK: enabled, payload length: 3 bytes
 
     // Set operational mode (PRX == receiver)
     nRF24_SetOperationalMode(nRF24_MODE_RX);

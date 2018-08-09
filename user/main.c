@@ -49,12 +49,21 @@ DataBlock dB;
 uint32_t timer = 0;
 TTP229_KEY touchKey;
 char key[2];
+		
+//----------- RF24 Variables -------------
+// Pipe number
+nRF24_RXResult pipe;
+// Buffer to read
+uint8_t nRF24_payload[32];
+// Length of received payload
+uint8_t payload_length;
 
 
 int main(int argc, char* argv[])
 {
 	char i;
 	uint8_t *buffer = malloc(sizeof(uint8_t) * 12);
+	char temperature[2] = {'9','9'}, humidity[2] = {'9','9'}, pressure[2] = {'9','9'};
 	InitBuzzer();
 	initialize();
 	//TIM_Configuration();
@@ -119,6 +128,21 @@ int main(int argc, char* argv[])
 			DelayMs(1000);
 		}
 		
+		//-----------------------------RF24 READ------------------------------------------
+		if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) 
+		{
+			led_toggle();
+			pipe = nRF24_ReadPayload(nRF24_payload, &payload_length);
+
+    	// Clear all pending IRQ flags
+			nRF24_ClearIRQFlags();
+			
+			//Convert temperature & humidity & pressure
+			sprintf(temperature, "%d", nRF24_payload[0]);
+			sprintf(humidity, "%d", nRF24_payload[1]);
+			sprintf(pressure, "%d", nRF24_payload[2]);
+		}
+		
 		//-----------------------------RFID Analayzer------------------------------------------
 		if (TM_MFRC522_Check(dB.RFID) == MI_OK) 
 		{
@@ -143,8 +167,16 @@ int main(int argc, char* argv[])
 		else 
 		{
 			SSD1306_Fill(SSD1306_COLOR_BLACK);
-			SSD1306_GotoXY(10,10);
-			SSD1306_Puts("No Card", &Font_11x18, SSD1306_COLOR_WHITE);
+			
+			SSD1306_GotoXY(5,5);
+			SSD1306_Puts(temperature, &Font_11x18, SSD1306_COLOR_WHITE);
+			
+			SSD1306_GotoXY(40,5);
+			SSD1306_Puts(humidity, &Font_11x18, SSD1306_COLOR_WHITE);
+			
+			SSD1306_GotoXY(75,5);
+			SSD1306_Puts(pressure, &Font_11x18, SSD1306_COLOR_WHITE);
+			
 			SSD1306_UpdateScreen();
 		}
 //		else if (TM_MFRC522_Check(CardID) == MI_NOTAGERR)
