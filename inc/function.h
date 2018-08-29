@@ -11,6 +11,7 @@ extern "C" {
 #include "stm32f10x_tim.h"
 #include "RF24.h"
 #include "delay.h"
+#include "stm32f10x_wwdg.h"
 	
 #define nRF24_WAIT_TIMEOUT         (uint32_t)0x000FFFFF
 	
@@ -41,6 +42,8 @@ NotiStatus GetStatus(uint8_t data_recv[], uint8_t index);
 NotiStatus GetStatus_INT(int value, uint8_t index);
 void LedStatusOnOff(NotiStatus stt);
 void led_toggle(void);
+
+void Wwdg_Init(void);
 	
 #ifdef __cplusplus
 }

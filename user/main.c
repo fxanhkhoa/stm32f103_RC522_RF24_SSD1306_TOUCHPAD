@@ -1,6 +1,8 @@
 #include "stm32f10x.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_gpio.h"
+
+
 #include "delay.h"
 #include <stdio.h>
 #include "main.h"
@@ -64,6 +66,7 @@ int main(int argc, char* argv[])
 	char i;
 	uint8_t *buffer = malloc(sizeof(uint8_t) * 12);
 	char temperature[2] = {'9','9'}, humidity[2] = {'9','9'}, pressure[2] = {'9','9'};
+	
 	InitBuzzer();
 	initialize();
 	//TIM_Configuration();
@@ -72,12 +75,15 @@ int main(int argc, char* argv[])
 	DelayInit();
 	Timer_Init();
 	SSD1306_Init();
+	
+	BuzzerRight();
+	
 	SSD1306_UpdateScreen();
 	
 	SSD1306_GotoXY(10,10);
 	SSD1306_Puts("Initialized", &Font_11x18, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
-	DelayMs(1000);
+	DelayMs(500);
 	
 	Initialize_RF24(); // !IMPORTANT, with SPI1, remember to set baud prescaler is 8 for lower speed, so it can read true data
 	
@@ -88,7 +94,7 @@ int main(int argc, char* argv[])
 	SSD1306_GotoXY(10,10);
 	SSD1306_Puts("RC522", &Font_11x18, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
-	DelayMs(2000);
+	DelayMs(500);
 	
 	//----- TTP229 ------
 	TTP229_Init(KEYS_16_ACTIVE_LOW);
@@ -96,7 +102,7 @@ int main(int argc, char* argv[])
 	SSD1306_GotoXY(10,10);
 	SSD1306_Puts("TTP229", &Font_11x18, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
-	DelayMs(2000);
+	DelayMs(500);
 	
 	//--------- RF24---------
 	Simple_Receive_Init();
@@ -104,15 +110,32 @@ int main(int argc, char* argv[])
 	SSD1306_GotoXY(10,10);
 	SSD1306_Puts("RF24", &Font_11x18, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
-	DelayMs(2000);
+	DelayMs(500);
 	
 	led_toggle();
 	printf("Started Application \n");
-
+	
+	//------wwdg init -----
+	Wwdg_Init();
+	
+	// Init timer = 0
+	timer = 0;
+	
 	while (1)
 	{
 		//----------------------------- Update Environment Data ---------------------------------------------
-		
+		if (timer > 10000)
+		{
+			timer = 0;
+			// Init RF24 again
+			//--------- RF24---------
+			Simple_Receive_Init();
+			SSD1306_Fill(SSD1306_COLOR_BLACK);
+			SSD1306_GotoXY(10,10);
+			SSD1306_Puts("RF24", &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_UpdateScreen();
+			DelayMs(500);
+		}
 		//-----------------------------Print OLED ---------------------------------------------
 		//SSD1306_UpdateScreen();
 		//-----------------------------TTP229--------------------------------------------------
@@ -125,12 +148,13 @@ int main(int argc, char* argv[])
 			SSD1306_GotoXY(10,10);
 			SSD1306_Puts(key, &Font_11x18, SSD1306_COLOR_WHITE);
 			SSD1306_UpdateScreen();
-			DelayMs(1000);
+			DelayMs(100);
 		}
 		
 		//-----------------------------RF24 READ------------------------------------------
 		if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) 
 		{
+			timer = 0;
 			led_toggle();
 			pipe = nRF24_ReadPayload(nRF24_payload, &payload_length);
 
@@ -160,7 +184,7 @@ int main(int argc, char* argv[])
 			SSD1306_GotoXY(10,10);
 			SSD1306_Puts("Hello", &Font_11x18, SSD1306_COLOR_WHITE);
 			SSD1306_UpdateScreen();
-			DelayMs(300);
+			DelayMs(100);
 			BuzzerRight();
 			//BuzzerFalse();
 		}
@@ -169,13 +193,25 @@ int main(int argc, char* argv[])
 			SSD1306_Fill(SSD1306_COLOR_BLACK);
 			
 			SSD1306_GotoXY(5,5);
-			SSD1306_Puts(temperature, &Font_11x18, SSD1306_COLOR_WHITE);
-			
-			SSD1306_GotoXY(40,5);
-			SSD1306_Puts(humidity, &Font_11x18, SSD1306_COLOR_WHITE);
-			
+			SSD1306_Puts("Temper", &Font_11x18, SSD1306_COLOR_WHITE);
 			SSD1306_GotoXY(75,5);
+			SSD1306_Puts(temperature, &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_GotoXY(100,5);
+			SSD1306_Puts("C", &Font_11x18, SSD1306_COLOR_WHITE);
+			
+			SSD1306_GotoXY(5,25);
+			SSD1306_Puts("Humi", &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_GotoXY(53,25);
+			SSD1306_Puts(humidity, &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_GotoXY(80,25);
+			SSD1306_Puts("%", &Font_11x18, SSD1306_COLOR_WHITE);
+			
+			SSD1306_GotoXY(5,45);
+			SSD1306_Puts("Press", &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_GotoXY(65,45);
 			SSD1306_Puts(pressure, &Font_11x18, SSD1306_COLOR_WHITE);
+			SSD1306_GotoXY(90,45);
+			SSD1306_Puts("atm", &Font_11x18, SSD1306_COLOR_WHITE);
 			
 			SSD1306_UpdateScreen();
 		}
@@ -419,3 +455,10 @@ void EXTI9_5_IRQHandler()
 		} 	    
 } 
 
+void WWDG_IRQHandler(void) {
+//	WWDG_ClearFlag(); //This function reset flag WWDG->SR and cancel the resetting
+//	WWDG_SetCounter(100);
+
+	/* Toggle LED which connected to PC13*/
+    GPIOC->ODR ^= GPIO_Pin_13;
+}

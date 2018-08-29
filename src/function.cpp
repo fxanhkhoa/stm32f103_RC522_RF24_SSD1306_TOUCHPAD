@@ -330,3 +330,39 @@ void LedStatusOnOff(NotiStatus stt)
 //	else if (stt == None) GPIO_ResetBits(LED_PORT, LED_NONE);
 }
 
+void Wwdg_Init(void)
+{	
+	/* Enable WWDG clock */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_WWDG, ENABLE);
+	
+	WWDG_DeInit();
+	
+	/* WWDG clock counter = (PCLK1 (72MHz)/4096)/8 = 2200Hz (~454 us)  */
+	WWDG_SetPrescaler(WWDG_Prescaler_8);
+	
+	/* Set Window value to 80; WWDG counter should be refreshed only when the counter
+    is below 80 (and greater than 64) otherwise a reset will be generated */
+  WWDG_SetWindowValue(127);
+	
+	/* Clear EWI flag */
+  WWDG_ClearFlag();
+
+	/* Update WWDG counter */
+  WWDG_SetCounter(127);
+	
+  /* Enable WWDG and set counter value to 127, WWDG timeout = ~683 us * 64 = 43.7 ms 
+     In this case the refresh window is: ~683 * (127-80)= 32.1ms < refresh window < ~683 * 64 = 43.7ms
+     */
+  WWDG_Enable(100);
+	
+	/* Enable EW interrupt */
+  WWDG_EnableIT();
+	
+	NVIC_InitTypeDef NVIC_InitStructure;
+  NVIC_InitStructure.NVIC_IRQChannel = WWDG_IRQn;    /*WWDG interrupt*/
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);/*    NVIC initialization*/
+}
+

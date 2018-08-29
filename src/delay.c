@@ -6,6 +6,8 @@ static __IO uint32_t usTicks;
 // SysTick_Handler function will be called every 1 us
 void SysTick_Handler()
 {
+		/* Update WWDG counter */
+		WWDG_SetCounter(100);
     if (usTicks != 0)
     {
         usTicks--;
